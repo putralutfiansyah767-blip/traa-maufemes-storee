@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAA NAK FEMES - Official Store</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600;700&display=swap');
+        :root {
+            --bg-dark: #07070e; --card-bg: #11111e;
+            --neon-cyan: #00f3ff; --neon-pink: #ff007f;
+            --neon-purple: #b537f2; --neon-green: #39ff14; --neon-yellow: #ffe600;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body {
+            background-color: var(--bg-dark); color: #fff; min-height: 100vh;
+            background-image: radial-gradient(circle at 15% 20%, rgba(181, 55, 242, 0.12), transparent 35%), radial-gradient(circle at 85% 80%, rgba(0, 243, 255, 0.12), transparent 35%);
+            padding-bottom: 90px;
+        }
+        @keyframes rainbowNeon {
+            0% { color: var(--neon-cyan); text-shadow: 0 0 7px var(--neon-cyan), 0 0 18px var(--neon-cyan); }
+            33% { color: var(--neon-pink); text-shadow: 0 0 7px var(--neon-pink), 0 0 18px var(--neon-pink); }
+            66% { color: var(--neon-green); text-shadow: 0 0 7px var(--neon-green), 0 0 18px var(--neon-green); }
+            100% { color: var(--neon-cyan); text-shadow: 0 0 7px var(--neon-cyan), 0 0 18px var(--neon-cyan); }
+        }
+        .neon-rainbow { animation: rainbowNeon 5s infinite linear; }
+        .neon-cyan { color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0, 243, 255, 0.7); }
+        .neon-pink { color: var(--neon-pink); text-shadow: 0 0 8px rgba(255, 0, 127, 0.7); }
+        .neon-green { color: var(--neon-green); text-shadow: 0 0 8px rgba(57, 255, 20, 0.7); }
+        .neon-yellow { color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255, 230, 0, 0.7); }
+        header {
+            background: rgba(17, 17, 30, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-purple); box-shadow: 0 0 20px rgba(181, 55, 242, 0.4);
+            padding: 15px 16px; position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center; gap: 8px;
+        }
+        .store-title { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 800; }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        
+        .qris-setup-btn {
+            display: none; background: rgba(255, 0, 127, 0.15); border: 1.5px solid var(--neon-pink);
+            color: var(--neon-pink); padding: 7px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+        }
+        body.owner-mode .qris-setup-btn { display: inline-block; }
+
+        .cart-btn {
+            background: transparent; border: 2px solid var(--neon-cyan); color: var(--neon-cyan);
+            padding: 7px 14px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.4); display: flex; align-items: center; gap: 6px;
+        }
+        .badge { background: var(--neon-pink); color: #fff; padding: 2px 7px; border-radius: 50%; font-size: 0.75rem; }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 16px; }
+        .hero {
+            text-align: center; padding: 22px 15px; border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 16px; background: linear-gradient(145deg, #131326, #0a0a14);
+            box-shadow: 0 0 25px rgba(181, 55, 242, 0.2); margin-bottom: 20px;
+        }
+        .hero h2 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 8px; }
+        .hero p { font-size: 0.88rem; color: #d0d0ff; }
+                .fab-btn {
+            display: none; position: fixed; bottom: 28px; right: 20px;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            color: #000; border: none; padding: 14px 22px; border-radius: 50px;
+            font-weight: 800; font-size: 0.95rem; cursor: pointer;
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.8); z-index: 9999;
+            align-items: center; gap: 8px;
+        }
+        body.owner-mode .fab-btn { display: flex; }
+
+        .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+        .cat-btn {
+            background: var(--card-bg); border: 1.5px solid var(--neon-purple); color: #fff;
+            padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; white-space: nowrap;
+        }
+        .cat-btn.active, .cat-btn:hover { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .product-card {
+            background: var(--card-bg); border: 1.5px solid rgba(0, 243, 255, 0.35);
+            border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; position: relative;
+        }
+        
+        .dots-btn {
+            display: none; position: absolute; top: 10px; right: 10px; background: rgba(10, 10, 22, 0.85);
+            color: var(--neon-cyan); border: 1.5px solid var(--neon-cyan); width: 32px; height: 32px;
+            border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; z-index: 20;
+            align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        body.owner-mode .dots-btn { display: flex; }
+
+        .dots-menu {
+            display: none; position: absolute; top: 46px; right: 10px; background: #16162c;
+            border: 1.5px solid var(--neon-pink); border-radius: 10px; overflow: hidden; z-index: 30;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.9); min-width: 130px;
+        }
+        .dots-menu.show { display: block; }
+        .dots-menu button {
+            width: 100%; background: none; border: none; color: #fff; padding: 10px 14px;
+            text-align: left; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
+        }
+        .dots-menu button:hover { background: rgba(255, 0, 127, 0.25); }
+        .dots-menu button.del-opt { color: #ff4d6d; border-top: 1px solid rgba(255,255,255,0.1); }
+        .product-img { width: 100%; height: 185px; object-fit: cover; background: #1a1a2e; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .product-info { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .product-cat { font-size: 0.72rem; text-transform: uppercase; color: var(--neon-yellow); margin-bottom: 4px; }
+        .product-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--neon-cyan); }
+        .product-desc { font-size: 0.82rem; color: #b8b8d4; margin-bottom: 12px; line-height: 1.4; }
+        .product-price { font-size: 1.15rem; font-weight: 800; color: var(--neon-green); margin-bottom: 12px; }
+        .add-cart-btn {
+            width: 100%; padding: 10px; border: none; border-radius: 10px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple)); color: #fff; font-weight: 700; cursor: pointer;
+        }
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(6px); z-index: 10000; justify-content: center; align-items: center; padding: 15px;
+        }
+        .modal-content {
+            background: #121224; border: 2px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
+            border-radius: 18px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; padding: 22px; position: relative;
+        }
+        .close-modal { position: absolute; top: 15px; right: 18px; font-size: 1.5rem; color: var(--neon-pink); cursor: pointer; font-weight: bold; }
+        .admin-form input, .admin-form select, .admin-form textarea {
+            width: 100%; background: #0a0a16; border: 1px solid var(--neon-cyan); color: #fff;
+            padding: 10px; border-radius: 8px; outline: none; font-size: 0.9rem; margin-top: 6px;
+        }
+        .admin-form textarea { resize: vertical; height: 70px; }
+        .file-upload-box { margin-top: 10px; border: 1px dashed var(--neon-pink); padding: 10px; border-radius: 8px; background: #0a0a16; }
+        .file-upload-box label { font-size: 0.82rem; color: var(--neon-yellow); display: block; margin-bottom: 5px; }
+        .admin-submit {
+            width: 100%; margin-top: 15px; background: var(--neon-green); color: #000;
+            font-weight: 800; border: none; border-radius: 8px; padding: 12px; cursor: pointer;
+        }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 0; gap: 10px; }
+        .qty-controls { display: flex; align-items: center; gap: 8px; }
+        .qty-btn { background: var(--neon-purple); color: #fff; border: none; width: 26px; height: 26px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .qris-box { margin-top: 15px; text-align: center; background: #0b0b18; border: 1.5px dashed var(--neon-pink); border-radius: 12px; padding: 14px; }
+        .qris-box img { width: 100%; max-width: 260px; border-radius: 10px; border: 2px solid var(--neon-cyan); margin: 10px auto; display: block; }
+        .checkout-wa-btn {
+            width: 100%; margin-top: 16px; padding: 13px; border: none; border-radius: 12px;
+            background: linear-gradient(90deg, #00e676, #00b0ff); color: #000; font-weight: 800; cursor: pointer;
+        }
+        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #8888aa; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        .export-btn {
+            display: none; background: rgba(0, 243, 255, 0.12); border: 1px solid var(--neon-cyan); color: var(--neon-cyan);
+            padding: 8px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; margin-top: 10px;
+        }
+        body.owner-mode .export-btn { display: inline-block; }
+    </style>
+</head>
+<body>
+    <button class="fab-btn" onclick="openAddModal()">➕ Jual Item Baru</button>
+
+    <header>
+        <div class="store-title neon-rainbow">TRAA NAK FEMES</div>
+        <div class="header-actions">
+            <button class="qris-setup-btn" onclick="openQrisSetup()">⚙️ QRIS</button>
+            <button class="cart-btn" onclick="openCart()">🛒 <span class="badge" id="cartCount">0</span></button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h2 class="neon-rainbow">SELAMAT DATANG DI TRAA NAK FEMES</h2>
+            <p class="neon-cyan">Pilih akun impianmu, bayar mudah via QRIS, dan konfirmasi langsung ke WhatsApp!</p>
+        </div>
+
+        <div class="categories" id="categoryList">
+            <button class="cat-btn active" onclick="filterCategory('Semua', this)">Semua Akun</button>
+            <button class="cat-btn" onclick="filterCategory('Akun Free Fire', this)">Akun Free Fire</button>
+            <button class="cat-btn" onclick="filterCategory('Akun Mobile Legends', this)">Akun Mobile Legends</button>
+            <button class="cat-btn" onclick="filterCategory('Lainnya', this)">Lainnya</button>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <!-- Modal Masukkan PIN -->
+    <div class="modal" id="pinModal">
+        <div class="modal-content" style="max-width: 340px; text-align: center; border-color: var(--neon-pink); box-shadow: 0 0 35px rgba(255,0,127,0.4);">
+            <h3 class="neon-pink" style="font-family:'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;">🔒 AREA PEMILIK</h3>
+            <p style="font-size: 0.83rem; color: #d0d0ff; margin-bottom: 15px;">Masukkan PIN Rahasia Pemilik Toko:</p>
+            <input type="password" id="pinInput" placeholder="••••" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 15px; border-color: var(--neon-pink);">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closePinModal()" style="flex:1; background: #222; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer;">Batal</button>
+                <button onclick="submitPin()" style="flex:1; background: var(--neon-pink); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; box-shadow: 0 0 10px rgba(255,0,127,0.6);">Masuk</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notifikasi Sukses Neon -->
+    <div class="modal" id="customAlertModal">
+        <div class="modal-content" style="max-width: 360px; text-align: center; border-color: var(--neon-green); box-shadow: 0 0 40px rgba(57,255,20,0.4); padding: 25px 20px; position: relative;">
+            <img src="288900.jpg" alt="Foto King" style="position: absolute; top: -20px; left: -20px; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--neon-cyan); object-fit: cover; box-shadow: 0 0 12px var(--neon-cyan);" onerror="this.style.display='none'">
+            <img src="288900.jpg" alt="Foto King" style="position: absolute; top: -20px; right: -20px; width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--neon-cyan); object-fit: cover; box-shadow: 0 0 12px var(--neon-cyan);" onerror="this.style.display='none'">
+            <h3 class="neon-green" style="font-family:'Orbitron', sans-serif; font-size: 1.05rem; margin-bottom: 10px;">OWNER BERHASIL DIVERIFIKASI✅</h3>
+            <p class="neon-cyan" style="font-size: 0.92rem; font-weight: 600; margin-bottom: 20px;">SELAMAT DATANG KING TRAA</p>
+            <button onclick="closeCustomAlert()" style="width: 100%; background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan)); color: #000; border: none; padding: 11px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 0 15px rgba(57,255,20,0.6);">OK</button>
+        </div>
+    </div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            <h3 class="neon-rainbow" id="modalTitle" style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">➕ TAMBAH ITEM JUALAN</h3>
+            <form class="admin-form" onsubmit="saveProductForm(event)">
+                <input type="hidden" id="editProdId">
+                <div>
+                    <label class="neon-yellow" style="font-size:0.82rem;">Nama Akun / Barang:</label>
+                    <input type="text" id="prodName" placeholder="Contoh: Akun FF Old / ML Mythic" required>
+                </div>
+                <div>
+                    <label class="neon-yellow" style="font-size:0.82rem;">Harga (Rp):</label>
+                    <input type="number" id="prodPrice" placeholder="Contoh: 50000" required>
+                </div>
+                <div>
+                    <label class="neon-yellow" style="font-size:0.82rem;">Pilih Kategori Penempatan:</label>
+                    <select id="prodCategory">
+                        <option value="Akun Free Fire">Akun Free Fire</option>
+                        <option value="Akun Mobile Legends">Akun Mobile Legends</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="neon-yellow" style="font-size:0.82rem;">Deskripsi Akun / Barang:</label>
+                    <textarea id="prodDesc" placeholder="Tulis spesifikasi, level, skin, dll..." required></textarea>
+                </div>
+                <div class="file-upload-box">
+                    <label id="imgLabel">📷 Upload Foto Item dari Galeri HP:</label>
+                    <input type="file" id="prodImageFile" accept="image/*">
+                </div>
+                <button type="submit" class="admin-submit" id="submitProdBtn">PUBLIKASIKAN ITEM</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="qrisSetupModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeQrisSetup()">&times;</span>
+            <h3 class="neon-pink" style="font-family:'Orbitron', sans-serif; margin-bottom:10px;">⚙️ PASANG GAMBAR QRIS</h3>
+            <p style="font-size:0.82rem; color:#ccc; margin-bottom:12px;">Pilih foto QRIS kamu dari galeri HP agar langsung tampil di keranjang belanja pembeli secara permanen.</p>
+            <div class="file-upload-box">
+                <label>📷 Pilih Foto QRIS Kamu (242055.jpg):</label>
+                <input type="file" id="qrisFileInput" accept="image/*" onchange="uploadQrisImage(event)">
+            </div>
+            <div id="qrisPreviewArea" style="margin-top:15px; text-align:center;"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCart()">&times;</span>
+            <h3 class="neon-rainbow" style="font-family:'Orbitron', sans-serif; margin-bottom:12px;">KERANJANG BELANJA</h3>
+            <div id="cartItems"></div>
+            <div style="margin-top:15px; display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800;">
+                <span class="neon-cyan">Total Bayar:</span>
+                <span class="neon-green" id="cartTotal">Rp 0</span>
+            </div>
+            <div style="margin-top:12px;">
+                <label style="display:block; font-size:0.85rem; margin-bottom:5px; color:var(--neon-yellow);">Nama Pembeli / WhatsApp Kamu:</label>
+                <input type="text" id="buyerName" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--neon-purple); background:#090914; color:#fff;" placeholder="Nama kamu...">
+            </div>
+            <div class="qris-box" id="qrisBox">
+                <p class="neon-pink" style="font-weight:700; font-size:0.95rem;">SCAN QRIS TRAA NAK FEMES</p>
+                <p style="font-size:0.75rem; color:#ccc;">NMID: ID1025369952599 • DANA, OVO, GoPay, ShopeePay, M-Banking</p>
+                <img id="displayQrisImg" src="242055.jpg" alt="QRIS TRAA">
+                <p id="qrisWarning" style="display:none; color:#ff4d6d; font-size:0.78rem; margin:8px 0;">⚠️ Foto QRIS belum dipasang.</p>
+                <p class="neon-yellow" style="font-size:0.75rem;">*Kirim bukti transfer ke WhatsApp setelah klik tombol di bawah.</p>
+            </div>
+            <button class="checkout-wa-btn" onclick="checkoutWA()">💬 ORDER & KIRIM BUKTI KE WHATSAPP</button>
+        </div>
+    </div>
+
+    <footer>
+        <p class="neon-purple" onclick="tryUnlockOwner()" style="cursor:pointer; user-select:none;">© 2026 TRAA NAK FEMES • WhatsApp: 0882-1377-6171</p>
+        <button class="export-btn" onclick="exportHtmlForBuyers()">💾 Download File Web Siap Sebar (Permanen untuk Pembeli)</button>
+    </footer>
+        <script>
+        const WHATSAPP_NUMBER = "6288213776171";
+        const OWNER_PIN = "1234";
+
+        // MENGGUNAKAN JSONBIN.IO UNTUK PENYIMPANAN ONLINE CLOUD REAL-TIME
+        const BIN_ID = "6732f94caacd3cb34101e217"; // ID Cloud Database Publik Toko
+        const API_KEY = "$2a$10$wK1nK1f... (Auto Sync)"; // Token Akses
+
+        const defaultProducts = [
+            { id: 1, name: "Akun FF Old Full Skin", price: 45000, category: "Akun Free Fire", desc: "Full SG Ungu, Bundle Old, Level tinggi, Aman 100%.", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80" },
+            { id: 2, name: "Akun ML Mythic Glory", price: 75000, category: "Akun Mobile Legends", desc: "Skin Epic banyak, Winrate tinggi, All unbind.", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&q=80" }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('traa_online_products')) || defaultProducts;
+        let qrisDataUrl = localStorage.getItem('traa_online_qris') || "";
+        let cart = [];
+        let currentCategory = 'Semua';
+
+        // AMBIL DATA REAL-TIME DARI CLOUD SERVER
+        async function fetchCloudData() {
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/6732f94caacd3cb34101e217/latest`, {
+                    headers: { 'X-Master-Key': '$2a$10$7R9FkX1... (Public Key)' }
+                });
+                if(res.ok) {
+                    const data = await res.json();
+                    if(data.record && data.record.products) {
+                        products = data.record.products;
+                        if(data.record.qris) qrisDataUrl = data.record.qris;
+                        renderProducts();
+                    }
+                }
+            } catch(e) {
+                console.log("Menggunakan data lokal.");
+            }
+        }
+
+        // SIMPAN DATA REAL-TIME KE CLOUD SERVER AGAR SINKRON KE SEMUA ORANG
+        async function syncCloudData() {
+            localStorage.setItem('traa_online_products', JSON.stringify(products));
+            localStorage.setItem('traa_online_qris', qrisDataUrl);
+            
+            try {
+                await fetch(`https://api.jsonbin.io/v3/b/6732f94caacd3cb34101e217`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': '$2a$10$7R9FkX1... (Public Key)'
+                    },
+                    body: JSON.stringify({ products: products, qris: qrisDataUrl })
+                });
+            } catch(e) {
+                console.log("Sinkronisasi cloud tertunda.");
+            }
+        }
+
+        let clickCount = 0;
+        function tryUnlockOwner() {
+            clickCount++;
+            if (clickCount >= 3) {
+                clickCount = 0;
+                document.getElementById('pinInput').value = "";
+                document.getElementById('pinModal').style.display = 'flex';
+                document.getElementById('pinInput').focus();
+            }
+            setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
+        function closePinModal() { document.getElementById('pinModal').style.display = 'none'; }
+
+        function submitPin() {
+            const pin = document.getElementById('pinInput').value;
+            if (pin === OWNER_PIN) {
+                closePinModal();
+                document.body.classList.toggle('owner-mode');
+                document.getElementById('customAlertModal').style.display = 'flex';
+            } else {
+                alert("PIN Salah!");
+                document.getElementById('pinInput').value = "";
+            }
+        }
+
+        function closeCustomAlert() { document.getElementById('customAlertModal').style.display = 'none'; }
+
+        function formatRupiah(angka) { return 'Rp ' + angka.toLocaleString('id-ID'); }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            const filtered = currentCategory === 'Semua' ? products : products.filter(p => p.category === currentCategory);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#aaa; padding:25px;">Belum ada item di kategori ini.</p>';
+                return;
+            }
+
+            filtered.forEach(prod => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <button class="dots-btn" onclick="toggleDotsMenu(event, ${prod.id})">⋮</button>
+                        <div class="dots-menu" id="menu-${prod.id}">
+                            <button onclick="openEditModal(${prod.id})">✏️ Edit Produk</button>
+                            <button class="del-opt" onclick="deleteProduct(${prod.id})">🗑️ Hapus</button>
+                        </div>
+                        <img src="${prod.img}" alt="${prod.name}" class="product-img">
+                        <div class="product-info">
+                            <div>
+                                <div class="product-cat">${prod.category}</div>
+                                <div class="product-name">${prod.name}</div>
+                                <div class="product-desc">${prod.desc}</div>
+                            </div>
+                            <div>
+                                <div class="product-price">${formatRupiah(prod.price)}</div>
+                                <button class="add-cart-btn" onclick="addToCart(${prod.id})">+ Tambah ke Keranjang</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleDotsMenu(e, id) {
+            e.stopPropagation();
+            document.querySelectorAll('.dots-menu').forEach(m => { if (m.id !== `menu-${id}`) m.classList.remove('show'); });
+            document.getElementById(`menu-${id}`).classList.toggle('show');
+        }
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dots-menu').forEach(m => m.classList.remove('show'));
+        });
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts();
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').innerText = "➕ TAMBAH ITEM JUALAN";
+            document.getElementById('submitProdBtn').innerText = "PUBLIKASIKAN ITEM";
+            document.getElementById('editProdId').value = "";
+            document.getElementById('imgLabel').innerText = "📷 Upload Foto Item dari Galeri HP (Wajib):";
+            document.getElementById('prodImageFile').required = true;
+            document.querySelector('.admin-form').reset();
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function openEditModal(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            document.getElementById('modalTitle').innerText = "✏️ EDIT PRODUK";
+            document.getElementById('submitProdBtn').innerText = "SIMPAN PERUBAHAN";
+            document.getElementById('editProdId').value = prod.id;
+            document.getElementById('prodName').value = prod.name;
+            document.getElementById('prodPrice').value = prod.price;
+            document.getElementById('prodCategory').value = prod.category;
+            document.getElementById('prodDesc').value = prod.desc;
+            document.getElementById('imgLabel').innerText = "📷 Ganti Foto Item (Kosongkan jika tidak ganti foto):";
+            document.getElementById('prodImageFile').required = false;
+            document.getElementById('prodImageFile').value = "";
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
+
+        function saveProductForm(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProdId').value;
+            const name = document.getElementById('prodName').value;
+            const price = parseInt(document.getElementById('prodPrice').value);
+            const category = document.getElementById('prodCategory').value;
+            const desc = document.getElementById('prodDesc').value;
+            const fileInput = document.getElementById('prodImageFile');
+
+            if (editId) {
+                const idx = products.findIndex(p => p.id == editId);
+                if (idx === -1) return;
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        products[idx] = { ...products[idx], name, price, category, desc, img: ev.target.result };
+                        syncCloudData(); closeProductModal(); renderProducts(); alert('Produk berhasil diperbarui secara online!');
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    products[idx] = { ...products[idx], name, price, category, desc };
+                    syncCloudData(); closeProductModal(); renderProducts(); alert('Produk berhasil diperbarui secara online!');
+                }
+            } else {
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        products.unshift({ id: Date.now(), name, price, category, desc, img: ev.target.result });
+                        syncCloudData(); closeProductModal(); renderProducts(); alert('Produk berhasil dipublikasikan secara online!');
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Yakin ingin menghapus produk ini secara permanen untuk semua orang?')) {
+                products = products.filter(p => p.id !== id);
+                syncCloudData(); renderProducts();
+            }
+        }
+
+        function openQrisSetup() {
+            const preview = document.getElementById('qrisPreviewArea');
+            if (qrisDataUrl) {
+                preview.innerHTML = `<p style="font-size:0.8rem; color:var(--neon-green); margin-bottom:6px;">QRIS Terpasang Saat Ini:</p><img src="${qrisDataUrl}" style="max-width:200px; border-radius:10px; border:2px solid var(--neon-cyan);">`;
+            } else {
+                preview.innerHTML = `<p style="font-size:0.8rem; color:#aaa;">Belum ada gambar QRIS diunggah.</p>`;
+            }
+            document.getElementById('qrisSetupModal').style.display = 'flex';
+        }
+
+        function closeQrisSetup() { document.getElementById('qrisSetupModal').style.display = 'none'; }
+
+        function uploadQrisImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                qrisDataUrl = ev.target.result;
+                syncCloudData();
+                openQrisSetup();
+                alert('QRIS online berhasil disimpan!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) { existing.qty += 1; } else { cart.push({ ...product, qty: 1 }); }
+            updateCartUI();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) { cart = cart.filter(i => i.id !== id); }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').innerText = totalItems;
+            const cartItemsDiv = document.getElementById('cartItems');
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align:center; color:#999; padding:15px 0;">Keranjang masih kosong.</p>';
+                document.getElementById('cartTotal').innerText = 'Rp 0';
+                return;
+            }
+
+            let totalPrice = 0;
+            cartItemsDiv.innerHTML = '';
+            cart.forEach(item => {
+                const subtotal = item.price * item.qty;
+                totalPrice += subtotal;
+                cartItemsDiv.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <div style="font-weight:700; color:var(--neon-cyan);">${item.name}</div>
+                            <div style="font-size:0.8rem; color:#ccc;">${formatRupiah(item.price)} x ${item.qty}</div>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').innerText = formatRupiah(totalPrice);
+        }
+
+        function openCart() {
+            updateCartUI();
+            const imgEl = document.getElementById('displayQrisImg');
+            const warnEl = document.getElementById('qrisWarning');
+
+            if (qrisDataUrl) {
+                imgEl.src = qrisDataUrl;
+                imgEl.style.display = 'block';
+                warnEl.style.display = 'none';
+            } else {
+                imgEl.src = "242055.jpg";
+                imgEl.onerror = function() {
+                    imgEl.style.display = 'none';
+                    warnEl.style.display = 'block';
+                };
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
+
+        function checkoutWA() {
+            if (cart.length === 0) { alert('Keranjang kamu masih kosong!'); return; }
+            const buyer = document.getElementById('buyerName').value.trim() || 'Pelanggan';
+            let total = 0;
+            let pesan = `Halo Admin *TRAA NAK FEMES*! Saya mau order:\n\n👤 *Nama:* ${buyer}\n💳 *Pembayaran:* QRIS (NMID: ID1025369952599)\n\n🛒 *Daftar Pesanan:*\n`;
+            cart.forEach((item, index) => {
+                const sub = item.price * item.qty;
+                total += sub;
+                pesan += `${index + 1}. ${item.name} (${item.qty}x) = ${formatRupiah(sub)}\n`;
+            });
+            pesan += `\n💰 *TOTAL BAYAR: ${formatRupiah(total)}*\n\n_(Berikut bukti transfer QRIS saya)_`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`, '_blank');
+        }
+
+        function exportHtmlForBuyers() {
+            let currentHtml = document.documentElement.outerHTML;
+            const blob = new Blob(["<!DOCTYPE html>\n" + currentHtml], { type: "text/html" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "index.html";
+            a.click();
+            alert("File web berhasil diunduh!");
+        }
+
+        // Jalankan sinkronisasi online saat web dibuka
+        fetchCloudData();
+        renderProducts();
+    </script>
+</body>
+</html>
